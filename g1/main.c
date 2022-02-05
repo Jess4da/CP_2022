@@ -9,8 +9,6 @@ int player_bucket[2][2];
 int p1_score;
 int p2_score;
 
-int is_runing;
-
 void cls() {
     system("@cls||clear");
 }
@@ -24,7 +22,7 @@ void draw_table(int p_num) {
 
     if (p_num < 2) {
         printf("Player %d turn.\n", p_num + 1);
-        printf("Bucket: a %d, b %d\n", player_bucket[p_num][0], player_bucket[p_num][1]);
+        printf("Bucket: a=%d, b=%d\n", player_bucket[p_num][0], player_bucket[p_num][1]);
     }
 
     int i, j;
@@ -128,6 +126,7 @@ int sum_points() {
                     }
                     p2++;
                 }
+                break;
             }
         }
     }
@@ -154,6 +153,7 @@ int sum_points() {
                 }
             }
         }
+        break;
     }
 
     // Cross check
@@ -178,6 +178,7 @@ int sum_points() {
                 }
             }
         }
+        break;
     }
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
@@ -200,6 +201,7 @@ int sum_points() {
                 }
             }
         }
+        break;
     }
 
     p1_score = p1;
@@ -216,7 +218,6 @@ int sum_points() {
 void initial() {
     p1_score = 0;
     p2_score = 0;
-    is_runing = 1;
 
     int i, j, p;
     for (i = 0; i < 4; i++) {
