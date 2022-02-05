@@ -9,10 +9,12 @@ int p2_point;
 
 int player_alpha[2][2];
 
+//ฟังก์ชันล้างหน้าจอ
 void cls() {
     system("@cls||clear");
 }
 
+//ฟังก์ชันล้างเขียนหน้าจอ
 void draw_table(int turn) {
     int i, j;
     cls();
@@ -22,6 +24,7 @@ void draw_table(int turn) {
     printf("---------------------\n\n");
     printf("      Turn %d/30\n", turn);
     printf("  ");
+    //วนลูปเพิ่อสร้างตาราง 4*4
     for (i = 0; i < 4; i++) {
         printf("  %d ", i + 1);
     }
@@ -35,6 +38,7 @@ void draw_table(int turn) {
     }
 }
 
+//ฟังก์ชั่นใส่ตัวอักษรลงกระดาน
 int place_alpha(int p, int row, int col) {
     if (table[row][col] == ' ') {
         if (p == 0) {
@@ -70,6 +74,7 @@ int place_alpha(int p, int row, int col) {
     return 1;
 }
 
+//ฟังก์ชั่นเช็คคะแนน
 int calculate_score() {
     int p1 = 0, p2 = 0;
     int i, j;
@@ -176,7 +181,7 @@ int calculate_score() {
 
     return 1;
 }
-
+//ฟังก์ชั่นตั้งค่าเริ่มต้นในเกม
 void setup() {
     p1_point = 0;
     p2_point = 0;
@@ -193,6 +198,7 @@ void setup() {
         player_alpha[p][1] = 6;
     }
 }
+//ฟังก์ชั่นวนลูปเล่นเกม
 
 int game_loop() {
     int turn = 0;

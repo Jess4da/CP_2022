@@ -9,10 +9,12 @@ int player_bucket[2][2];
 int p1_score;
 int p2_score;
 
+//ฟังก์ชันล้างหน้าจอ
 void cls() {
     system("@cls||clear");
 }
 
+//ฟังก์ชันล้างเขียนหน้าจอ
 void draw_table(int p_num) {
     cls();
 
@@ -24,7 +26,8 @@ void draw_table(int p_num) {
         printf("Player %d turn.\n", p_num + 1);
         printf("Bucket: a=%d, b=%d\n", player_bucket[p_num][0], player_bucket[p_num][1]);
     }
-
+    
+    //วนลูปเพิ่อสร้างตาราง 4*4
     int i, j;
     for (i = 0; i < 4; i++) {
         printf("  %d ", i + 1);
@@ -41,7 +44,7 @@ void draw_table(int p_num) {
         printf("\n");
     }
 }
-
+//ฟังก์ชัั่นเช็คตัวอักษรว่าเป็น A B C หรือ a b c
 int check_alpha(char alpha) {
     alpha = tolower(alpha);
     if (alpha == 'a' || alpha == 'b' || alpha == 'c') {
@@ -50,6 +53,7 @@ int check_alpha(char alpha) {
     return 1;
 }
 
+//ฟังก์ชั่นใส่ตัวอักษรลงกระดาน
 int place_alpha(int p_num, char alpha, int row, int col) {
     char show_alpha = alpha;
     if (p_num % 2 == 0) {
@@ -101,7 +105,7 @@ int place_alpha(int p_num, char alpha, int row, int col) {
     player_table[row - 1][col - 1] = show_alpha;
     return 0;
 }
-
+//ฟังก์ชั่นเช็คคะแนน
 int sum_points() {
     int p1 = 0, p2 = 0;
     int i, j;
@@ -214,7 +218,7 @@ int sum_points() {
     }
     return 1;
 }
-
+//กำหนดค่าเริ่มต้น
 void initial() {
     p1_score = 0;
     p2_score = 0;
@@ -230,7 +234,7 @@ void initial() {
         player_bucket[p][1] = 6;
     }
 }
-
+//ฟังก์ชั่นวนลูปเล่นเกม
 int main_loop(int turn) {
     while (1) {
         draw_table(turn);
