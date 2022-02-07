@@ -244,7 +244,11 @@ int main_loop(int turn) {
         do {
 
             do {
-                printf("Player %d choose alphabet to place [a,b,c] >> ", turn + 1);
+                if(turn+1==1){
+                    printf("Player %d choose alphabet to place [a,b,c] >> ", turn + 1);
+                }else{
+                    printf("Player %d choose alphabet to place [A,B,C] >> ", turn + 1);
+                }
                 scanf(" %s", &alpha);
             } while (check_alpha(alpha));
 
