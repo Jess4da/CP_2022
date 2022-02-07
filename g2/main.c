@@ -50,20 +50,32 @@ int place_alpha(int p, int row, int col) {
     } else {
         if (p == 0) {
             if (table[row][col] == 'c') {
+                if (player_alpha[p][1] < 1) {
+                    return 1;
+                }
                 table[row][col] = 'b';
                 player_alpha[p][1]--;
                 return 0;
             } else if (table[row][col] == 'b') {
+                if (player_alpha[p][0] < 1) {
+                    return 1;
+                }
                 table[row][col] = 'a';
                 player_alpha[p][0]--;
                 return 0;
             }
         } else if (p == 1) {
             if (table[row][col] == 'C') {
+                if (player_alpha[p][1] < 1) {
+                    return 1;
+                }
                 table[row][col] = 'B';
                 player_alpha[p][1]--;
                 return 0;
             } else if (table[row][col] == 'B') {
+                if (player_alpha[p][0] < 1) {
+                    return 1;
+                }
                 table[row][col] = 'A';
                 player_alpha[p][0]--;
                 return 0;
@@ -87,16 +99,16 @@ int calculate_score() {
                 table[i][j + 2] != table[i][j + 3]) {
                 if (table[i][j] == tolower(table[i][j])) {
                     if (table[i][j] == 'a') {
-                        p1 = p1 + 4;
+                        return -1;
                     } else if (table[i][j] == 'b') {
-                        p1 = p1 + 2;
+                        p1++;
                     }
                     p1++;
                 } else {
                     if (table[i][j] == 'A') {
-                        p2 = p2 + 4;
+                        return -2;
                     } else if (table[i][j] == 'B') {
-                        p2 = p2 + 2;
+                        p2++;
                     }
                     p2++;
                 }
@@ -112,16 +124,16 @@ int calculate_score() {
                 table[i + 2][j] != table[i + 3][j]) {
                 if (table[i][j] == tolower(table[i][j])) {
                     if (table[i][j] == 'a') {
-                        p1 = p1 + 4;
+                        return -1;
                     } else if (table[i][j] == 'b') {
-                        p1 = p1 + 2;
+                        p1++;
                     }
                     p1++;
                 } else {
                     if (table[i][j] == 'A') {
-                        p2 = p2 + 4;
+                        return -2;
                     } else if (table[i][j] == 'B') {
-                        p2 = p2 + 2;
+                        p2++;
                     }
                     p2++;
                 }
@@ -137,16 +149,16 @@ int calculate_score() {
                 table[i + 2][j + 2] != table[i + 3][j + 3]) {
                 if (table[i][j] == tolower(table[i][j])) {
                     if (table[i][j] == 'a') {
-                        p1 = p1 + 4;
+                        return -1;
                     } else if (table[i][j] == 'b') {
-                        p1 = p1 + 2;
+                        p1++;
                     }
                     p1++;
                 } else {
                     if (table[i][j] == 'A') {
-                        p2 = p2 + 4;
+                        return -2;
                     } else if (table[i][j] == 'B') {
-                        p2 = p2 + 2;
+                        p2++;
                     }
                     p2++;
                 }
@@ -160,16 +172,16 @@ int calculate_score() {
                 table[i + 2][j] != table[i + 3][j - 1]) {
                 if (table[i + 1][j + 1] == tolower(table[i + 1][j + 1])) {
                     if (table[i + 1][j + 1] == 'a') {
-                        p1 = p1 + 4;
+                        return -1;
                     } else if (table[i + 1][j + 1] == 'b') {
-                        p1 = p1 + 2;
+                        p1++;
                     }
                     p1++;
                 } else {
                     if (table[i + 1][j + 1] == 'A') {
-                        p2 = p2 + 4;
+                        return -2;
                     } else if (table[i + 1][j + 1] == 'B') {
-                        p2 = p2 + 2;
+                        p2++;
                     }
                     p2++;
                 }
