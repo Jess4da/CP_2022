@@ -203,14 +203,13 @@ int main()
   init(board,player,scoreBoard);
   printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
   printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
-  // turn+=1;
   drawBoard(board);
   while (1)
   {
     char alphabet ;
     int x,y;
     printf("turn of player %d\n",turn%2==0?1:2);
-    printf("insert alphabet> ");
+    printf("insert alphabet %s> ",turn%2==0?"[a,b,c]":"[A,B,C]");
     scanf(" %c",&alphabet);
     printf("insert position of x > ");
     scanf(" %d",&x);
@@ -221,15 +220,19 @@ int main()
     checkScore(board,player,scoreBoard);
     
     int check = checkWin(player);
+    // int check =1;
     if(check==1){
       char pg;
       printf("Player %d is winner\nPlay again? (Y/N)> ",player[0][3]>player[1][3]?1:2);
       scanf(" %c",&pg);
-      if (pg!='y'||pg!='Y'){
+      if (pg!='y'&&pg!='Y'){
+        printf("%c",pg);
         break;
       }
-    init(board,player,scoreBoard);
-
+      init(board,player,scoreBoard);
+      printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
+      printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
+      drawBoard(board);
     }
     if(checkBoard!=1){
       turn+=1;
