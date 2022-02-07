@@ -207,12 +207,15 @@ int main()
     char alphabet ;
     int x,y;
     printf("turn of player %d\n",turn%2==0?1:2);
-    printf("insert alphabet> ");
+    printf("insert alphabet %s > ",turn%2==0?"a b or c":"A B or C");
     scanf(" %c",&alphabet);
     printf("insert position of x and y (example: 1 2)> ");
     scanf(" %d %d",&x,&y);
 
     int checkBoard = updateBoard(board,player,y-1,x-1,alphabet,scoreBoard,turn,boardAlpha);
+    if (checkBoard!=1){
+      turn+=1;
+    }
     if (checkGame(board)!=1||player[0][4]==1||player[1][4]==1){
       if (player[0][4]==1||player[1][4]==1){
         printf("Player %d is winer",turn%2+1);
@@ -226,8 +229,6 @@ int main()
       }
       init(board,player,scoreBoard,boardAlpha);
 
-    }else{
-      turn+=1;
     }
   }
   return 0;
