@@ -26,7 +26,7 @@ void draw_table(int p_num) {
         printf("Player %d turn.\n", p_num + 1);
         printf("Bucket: a=%d, b=%d\n", player_bucket[p_num][0], player_bucket[p_num][1]);
     }
-    
+
     //วนลูปเพิ่อสร้างตาราง 4*4
     int i, j;
     for (i = 0; i < 4; i++) {
@@ -114,7 +114,8 @@ int sum_points() {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 2; j++) {
             if (player_table[i][j] != ' ' && player_table[i][j] == player_table[i][j + 1] &&
-                player_table[i][j + 1] == player_table[i][j + 2]) {
+                player_table[i][j + 1] == player_table[i][j + 2] &&
+                player_table[i][j + 2] != player_table[i][j + 3]) {
                 if (player_table[i][j] == tolower(player_table[i][j])) {
                     if (player_table[i][j] == 'a') {
                         p1 = p1 + 4;
@@ -130,7 +131,6 @@ int sum_points() {
                     }
                     p2++;
                 }
-                break;
             }
         }
     }
@@ -139,7 +139,8 @@ int sum_points() {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 4; j++) {
             if (player_table[i][j] != ' ' && player_table[i][j] == player_table[i + 1][j] &&
-                player_table[i + 1][j] == player_table[i + 2][j]) {
+                player_table[i + 1][j] == player_table[i + 2][j] &&
+                player_table[i + 2][j] != player_table[i + 3][j]) {
                 if (player_table[i][j] == tolower(player_table[i][j])) {
                     if (player_table[i][j] == 'a') {
                         p1 = p1 + 4;
@@ -157,14 +158,14 @@ int sum_points() {
                 }
             }
         }
-        break;
     }
 
     // Cross check
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             if (player_table[i][j] != ' ' && player_table[i][j] == player_table[i + 1][j + 1] &&
-                player_table[i + 1][j + 1] == player_table[i + 2][j + 2]) {
+                player_table[i + 1][j + 1] == player_table[i + 2][j + 2] &&
+                player_table[i + 2][j + 2] != player_table[i + 3][j + 3]) {
                 if (player_table[i][j] == tolower(player_table[i][j])) {
                     if (player_table[i][j] == 'a') {
                         p1 = p1 + 4;
@@ -182,12 +183,12 @@ int sum_points() {
                 }
             }
         }
-        break;
     }
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             if (player_table[i][j + 2] != ' ' && player_table[i][j + 2] == player_table[i + 1][j + 1] &&
-                player_table[i + 1][j + 1] == player_table[i + 2][j]) {
+                player_table[i + 1][j + 1] == player_table[i + 2][j] &&
+                player_table[i + 2][j] != player_table[i + 3][j - 1]) {
                 if (player_table[i + 1][j + 1] == tolower(player_table[i + 1][j + 1])) {
                     if (player_table[i + 1][j + 1] == 'a') {
                         p1 = p1 + 4;
@@ -205,7 +206,6 @@ int sum_points() {
                 }
             }
         }
-        break;
     }
 
     p1_score = p1;

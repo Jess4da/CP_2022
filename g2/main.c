@@ -83,23 +83,23 @@ int calculate_score() {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 2; j++) {
             if (table[i][j] != ' ' && table[i][j] == table[i][j + 1] &&
-                table[i][j + 1] == table[i][j + 2]) {
+                table[i][j + 1] == table[i][j + 2] &&
+                table[i][j + 2] != table[i][j + 3]) {
                 if (table[i][j] == tolower(table[i][j])) {
                     if (table[i][j] == 'a') {
-                        return -1;
+                        p1 = p1 + 4;
                     } else if (table[i][j] == 'b') {
-                        p1++;
+                        p1 = p1 + 2;
                     }
                     p1++;
                 } else {
                     if (table[i][j] == 'A') {
-                        return -2;
+                        p2 = p2 + 4;
                     } else if (table[i][j] == 'B') {
-                        p2++;
+                        p2 = p2 + 2;
                     }
                     p2++;
                 }
-                break;
             }
         }
     }
@@ -108,74 +108,75 @@ int calculate_score() {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 4; j++) {
             if (table[i][j] != ' ' && table[i][j] == table[i + 1][j] &&
-                table[i + 1][j] == table[i + 2][j]) {
+                table[i + 1][j] == table[i + 2][j] &&
+                table[i + 2][j] != table[i + 3][j]) {
                 if (table[i][j] == tolower(table[i][j])) {
                     if (table[i][j] == 'a') {
-                        return -1;
+                        p1 = p1 + 4;
                     } else if (table[i][j] == 'b') {
-                        p1++;
+                        p1 = p1 + 2;
                     }
                     p1++;
                 } else {
                     if (table[i][j] == 'A') {
-                        return -2;
+                        p2 = p2 + 4;
                     } else if (table[i][j] == 'B') {
-                        p2++;
+                        p2 = p2 + 2;
                     }
                     p2++;
                 }
             }
         }
-        break;
     }
 
     // Cross check
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             if (table[i][j] != ' ' && table[i][j] == table[i + 1][j + 1] &&
-                table[i + 1][j + 1] == table[i + 2][j + 2]) {
+                table[i + 1][j + 1] == table[i + 2][j + 2] &&
+                table[i + 2][j + 2] != table[i + 3][j + 3]) {
                 if (table[i][j] == tolower(table[i][j])) {
                     if (table[i][j] == 'a') {
-                        return -1;
+                        p1 = p1 + 4;
                     } else if (table[i][j] == 'b') {
-                        p1++;
+                        p1 = p1 + 2;
                     }
                     p1++;
                 } else {
                     if (table[i][j] == 'A') {
-                        return -2;
+                        p2 = p2 + 4;
                     } else if (table[i][j] == 'B') {
-                        p2++;
+                        p2 = p2 + 2;
                     }
                     p2++;
                 }
             }
         }
-        break;
     }
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             if (table[i][j + 2] != ' ' && table[i][j + 2] == table[i + 1][j + 1] &&
-                table[i + 1][j + 1] == table[i + 2][j]) {
+                table[i + 1][j + 1] == table[i + 2][j] &&
+                table[i + 2][j] != table[i + 3][j - 1]) {
                 if (table[i + 1][j + 1] == tolower(table[i + 1][j + 1])) {
                     if (table[i + 1][j + 1] == 'a') {
-                        return -1;
+                        p1 = p1 + 4;
                     } else if (table[i + 1][j + 1] == 'b') {
-                        p1++;
+                        p1 = p1 + 2;
                     }
                     p1++;
                 } else {
                     if (table[i + 1][j + 1] == 'A') {
-                        return -2;
+                        p2 = p2 + 4;
                     } else if (table[i + 1][j + 1] == 'B') {
-                        p2++;
+                        p2 = p2 + 2;
                     }
                     p2++;
                 }
             }
         }
-        break;
     }
+
     p1_point = p1;
     p2_point = p2;
 
