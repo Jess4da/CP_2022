@@ -219,8 +219,8 @@ int main()
     if (checkBoard!=1){
       turn+=1;
     }
-    
-    if (checkGame(board)==1||player[0][4]==1||player[1][4]==1){
+
+    if (checkGame(board)!=1||player[0][4]==1||player[1][4]==1){
       if (player[0][4]==1||player[1][4]==1){
         printf("Player %d is winer\nPlay again? (Y/N)> ",player[0][4]==1?1:2);
       }else{
