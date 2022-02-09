@@ -67,7 +67,7 @@ int updateBoard(char board[4][4],int player[2][5],int x,int y,char alphabet,int 
       player[0][3]-=1;
       scoreBoard[x][y]=2;
       board[x][y]=alphabet;
-      boardAlpha[x][y]=3;
+      boardAlpha[x][y]=4;
     }else{
       printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
       printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
@@ -95,7 +95,7 @@ int updateBoard(char board[4][4],int player[2][5],int x,int y,char alphabet,int 
       player[1][3]-=1;
       scoreBoard[x][y]=1;
       board[x][y]=alphabet;
-      boardAlpha[x][y]=3;
+      boardAlpha[x][y]=4;
     }else{
       printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
       printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
@@ -120,12 +120,12 @@ void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][5]){
         int winAlpha = boardAlpha[i][j]+boardAlpha[i][j+1]+boardAlpha[i][j+2];
         if (scoreBoard[i][j]%2==0){
           player[0][3]+=1;
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[0][4]=1;
           }
         }else{
           player[1][3]+=1; 
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[1][4]=1;
           }
         }
@@ -135,12 +135,12 @@ void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][5]){
         int winAlpha = boardAlpha[i][j]+boardAlpha[i+1][j]+boardAlpha[i+2][j];
         if (scoreBoard[i][j]%2==0){
           player[0][3]+=1;
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[0][4]=1;
           }
         }else{
           player[1][3]+=1; 
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[1][4]=1;
           }
         }
@@ -150,12 +150,12 @@ void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][5]){
         int winAlpha = boardAlpha[i][j]+boardAlpha[i+1][j+1]+boardAlpha[i+1][j+2];
         if (scoreBoard[i][j]%2==0){
           player[0][3]+=1;
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[0][4]=1;
           }
         }else{
           player[1][3]+=1; 
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[1][4]=1;
           }
         }
@@ -165,12 +165,12 @@ void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][5]){
         int winAlpha = boardAlpha[i][j]+boardAlpha[i+1][j-1]+boardAlpha[i+2][j-2];
         if (scoreBoard[i][j]%2==0){
           player[0][3]+=1;
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[0][4]=1;
           }
         }else{
           player[1][3]+=1; 
-          if(winAlpha>5){
+          if(winAlpha==7){
             player[1][4]=1;
           }
         }
@@ -219,15 +219,15 @@ int main()
     if (checkBoard!=1){
       turn+=1;
     }
-    if (checkGame(board)!=1||player[0][4]==1||player[1][4]==1){
+    if (1||player[0][4]==1||player[1][4]==1){
       if (player[0][4]==1||player[1][4]==1){
-        printf("Player %d is winer",player[0][4]==1?1:2);
+        printf("Player %d is winer\nPlay again? (Y/N)> ",player[0][4]==1?1:2);
       }else{
         printf("Player %d is winner\nPlay again? (Y/N)> ",player[0][3]>player[1][3]?1:2);
       }
       char pg;
       scanf(" %c",&pg);
-      if (pg=='y'||pg=='Y'){
+      if (pg!='y'&&pg!='Y'){
         break;
       }
       init(board,player,scoreBoard,boardAlpha);
