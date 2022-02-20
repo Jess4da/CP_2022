@@ -194,7 +194,7 @@ int main(){
 
   while (1)
   {
-    // printf("%d, %d\n",bonus[0],bonus[1]);
+    printf("Position bonus %d, %d\n",bonus[0],bonus[1]);
     printf("Score: P1 %d, P2 %d\n",player[0],player[1]);
     printf("Player %d insert position of x and y (example: 1 2)> ",turn%2+1);
     scanf(" %d %d",&x,&y);
