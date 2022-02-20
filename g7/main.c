@@ -37,7 +37,6 @@ void init(char board[4][4],int bonus[2],int player[2],int alphabet[2][2]){
   srand(time(0));
   bonus[0] = rand()%4;
   bonus[1] = rand()%4;
-  printf("%d, %d\n",bonus[0],bonus[1]);
 
 }
 
@@ -195,7 +194,7 @@ int main(){
 
   while (1)
   {
-    printf("%d, %d\n",bonus[0],bonus[1]);
+    // printf("%d, %d\n",bonus[0],bonus[1]);
     printf("Score: P1 %d, P2 %d\n",player[0],player[1]);
     printf("Player %d insert position of x and y (example: 1 2)> ",turn%2+1);
     scanf(" %d %d",&x,&y);
