@@ -116,6 +116,18 @@ int place_alphabet(int p, int row, int col) {
     return 1;
 }
 
+int checkend() {
+    int i, j;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            if (table[i][j] == ' ') {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 void init() {
     srand(time(0));
     int i, j;
@@ -144,7 +156,7 @@ void init() {
 
 void run() {
     int p = 0;
-    while (1) {
+    while (checkend()) {
         int row, col;
         do {
             draw();
@@ -176,6 +188,13 @@ int main() {
     while (1) {
         init();
         run();
+
+        draw();
+
+        int winner = score[0] == score[1] ? 0 : score[0] > score[1] ? 1
+                                                                    : 2;
+
+        winner == 0 ? printf("Draw...\n") : printf("Player %d Win...\n", winner);
 
         char is_restart;
         do {
