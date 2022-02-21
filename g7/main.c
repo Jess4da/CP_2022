@@ -20,18 +20,14 @@ void drawBoard(char board[4][4]){
   printf("  -----------------\n");
 }
 
-void init(char board[4][4],int bonus[2],int player[2],int alphabet[2][2]){
+void init(char board[4][4],int bonus[2],int player[2],int alphabet){
   int i,j;
   for (i=0;i<4;i++){
     for (j=0;j<4;j++){
       board[i][j] = ' ';
     }
   }
-  alphabet[0][0]=6;
-  alphabet[0][1]=3;
-
-  alphabet[1][0]=6;
-  alphabet[1][1]=3;
+  alphabet = 16;
   player[0]=0;
   player[1]=0;
   srand(time(0));
@@ -40,18 +36,17 @@ void init(char board[4][4],int bonus[2],int player[2],int alphabet[2][2]){
 
 }
 
-int insertBoard(char board[4][4],int x,int y,int turn,int alphabet[2][2]){
+int insertBoard(char board[4][4],int x,int y,int turn,int alphabet){
   if (turn%2==0){
     if(board[x][y]==' '){
       board[x][y]='c';
+      alphabet--;
     }
-    else if(board[x][y]=='c'&&alphabet[0][1]>0){
+    else if(board[x][y]=='c'){
       board[x][y]='b';
-      alphabet[0][0]--;
     }
-    else if(board[x][y]=='b'&&alphabet[0][1]>0){
+    else if(board[x][y]=='b'){
       board[x][y]='a';
-      alphabet[0][1]--;
     }
     else{
       printf("P1 can insert only a b and c\n");
@@ -61,16 +56,13 @@ int insertBoard(char board[4][4],int x,int y,int turn,int alphabet[2][2]){
   else{
     if(board[x][y]==' '){
       board[x][y]='C';
+      alphabet--;
     }
-    else if(board[x][y]=='C'&&alphabet[1][0]>0){
+    else if(board[x][y]=='C'){
       board[x][y]='B';
-      alphabet[1][0]--;
-
     }
-    else if(board[x][y]=='B'&&alphabet[1][1]>0){
+    else if(board[x][y]=='B'){
       board[x][y]='A';
-      alphabet[1][1]--;
-
     }
     else{
       printf("P2 can insert only A B and C\n");
@@ -187,7 +179,7 @@ int main(){
   char board[4][4];
   int player[2];
   int x,y;
-  int alphabet[2][2];
+  int alphabet;
   // init(board,bonus);
   init(board,bonus,player,alphabet);
   drawBoard(board);
@@ -217,7 +209,7 @@ int main(){
       turn++;
     }
 
-    if(alphabet[0][1]<=0||alphabet[1][1]<=0){
+    if(alphabet<=0){
       if(player[0]>player[1]){
         printf("Player 1 is Winner\nYou want to play again? [y/n]");
       }
