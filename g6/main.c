@@ -161,7 +161,8 @@ void run() {
         do {
             draw();
             if (is_trap != -1) {
-                printf("Player %d got trapped last turn, -%d\n", p == 0 ? 2 : 1, is_trap);
+                int temp = (p + 1) % 2;
+                printf("Player %d got trapped last turn, -%d\n", temp + 1, is_trap);
                 is_trap = -1;
             }
             printf("Player %d turn.\n", p + 1);
@@ -170,13 +171,14 @@ void run() {
         } while (place_alphabet(p, row - 1, col - 1));
 
         if (first == 1) {
+            int temp = (p + 1) % 2;
             do {
                 draw();
                 printf("Player %d bonus.\n", p + 1);
-                printf("Choose row and column to place for player %d e.g. 1,2 >> ", p == 0 ? 2 : 1);
+                printf("Choose row and column to place for player %d e.g. 1,2 >> ", temp + 1);
                 scanf(" %d,%d", &row, &col);
-            } while (place_alphabet(p == 0 ? 1 : 0, row - 1, col - 1));
-            p = p == 0 ? 1 : 0;
+            } while (place_alphabet(temp, row - 1, col - 1));
+            p = temp;
         }
 
         p = p + 1;
@@ -191,10 +193,13 @@ int main() {
 
         draw();
 
-        int winner = score[0] == score[1] ? 0 : score[0] > score[1] ? 1
-                                                                    : 2;
-
-        winner == 0 ? printf("Draw...\n") : printf("Player %d Win...\n", winner);
+        if (score[0] == score[1]) {
+            printf("Draw...\n");
+        } else if (score[0] > score[1]) {
+            printf("Player 1 Win...\n");
+        } else {
+            printf("Player 2 Win...\n");
+        }
 
         char is_restart;
         do {
