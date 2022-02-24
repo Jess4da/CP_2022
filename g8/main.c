@@ -12,6 +12,7 @@ int scores[2];
 char table[4][4];
 int char_bucket[2][2];
 long is_timeout;
+int is_place_a[2];
 
 void clear_console() {
     system("@cls||clear");
@@ -45,7 +46,42 @@ void draw_table() {
     }
 }
 
+int compare(char a, char b, char c) {
+    return a == b && b == c;
+}
+
 void cal_score(int row, int col, int player) {
+    int score = 0;
+
+    //Row
+    score += compare(table[row][col], table[row + 1][col], table[row + 2][col]) &&
+             table[row][col] != table[row + 3][col];
+    score += compare(table[row][col], table[row - 1][col], table[row - 2][col]) &&
+             table[row][col] != table[row - 3][col];
+    score += compare(table[row][col], table[row + 1][col], table[row - 1][col]);
+
+    //Column
+    score += compare(table[row][col], table[row][col + 1], table[row][col + 2]) &&
+             table[row][col] != table[row][col + 3];
+    score += compare(table[row][col], table[row][col - 1], table[row][col - 2]) &&
+             table[row][col] != table[row][col - 3];
+    score += compare(table[row][col], table[row][col + 1], table[row][col - 1]);
+
+    //Topleft cross
+    score += compare(table[row][col], table[row + 1][col + 1], table[row + 2][col + 2]) &&
+             table[row][col] != table[row + 3][col + 3];
+    score += compare(table[row][col], table[row - 1][col - 1], table[row - 2][col - 2]) &&
+             table[row][col] != table[row - 3][col - 3];
+    score += compare(table[row][col], table[row + 1][col + 1], table[row - 1][col - 1]);
+
+    //Topright cross
+    score += compare(table[row][col], table[row + 1][col - 1], table[row + 2][col - 2]) &&
+             table[row][col] != table[row + 3][col - 3];
+    score += compare(table[row][col], table[row - 1][col + 1], table[row - 2][col - 2]) &&
+             table[row][col] != table[row - 3][col - 3];
+    score += compare(table[row][col], table[row + 1][col - 1], table[row - 1][col + 1]);
+
+    scores[player] += score;
 }
 
 int place_char(int row, int col, int player, time_t start) {
@@ -59,19 +95,22 @@ int place_char(int row, int col, int player, time_t start) {
     }
 
     int place = 0;
-    if (table[col][row] == ' ') {
-        table[col][row] = (player == 0 ? 'c' : 'C');
+    if (table[row][col] == ' ') {
+        table[row][col] = (player == 0 ? 'c' : 'C');
+        is_place_a[player] = 0;
         place++;
     } else if (table[row][col] == (player == 0 ? 'c' : 'C')) {
         if (char_bucket[player][1] > 0) {
             table[row][col] = (player == 0 ? 'b' : 'B');
             char_bucket[player][1]--;
+            is_place_a[player] = 0;
             place++;
         }
     } else if (table[row][col] == (player == 0 ? 'b' : 'B')) {
-        if (char_bucket[player][0] > 0) {
+        if (char_bucket[player][0] > 0 && is_place_a[player] == 0) {
             table[row][col] = (player == 0 ? 'a' : 'A');
             char_bucket[player][0]--;
+            is_place_a[player] = 1;
             place++;
         }
     }
@@ -84,6 +123,42 @@ int place_char(int row, int col, int player, time_t start) {
     return 1;
 }
 
+int check_end() {
+    int count_blank = 0;
+    int i, j;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            if (table[i][j] == ' ') {
+                count_blank++;
+            }
+        }
+    }
+    if (count_blank == 0) {
+        if (0 == (char_bucket[0][0] || char_bucket[0][1] || char_bucket[1][0] || char_bucket[1][1])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int check_skip(int player) {
+    int count_blank = 0;
+    int i, j;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            if (table[i][j] == ' ') {
+                count_blank++;
+            }
+        }
+    }
+    if (count_blank == 0) {
+        if (0 == (char_bucket[player][0] || char_bucket[player][1])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void initial() {
     int i, j;
     for (i = 0; i < 4; i++) {
@@ -94,10 +169,11 @@ void initial() {
     for (i = 0; i < 2; i++) {
         char_bucket[i][0] = 3;
         char_bucket[i][1] = 6;
+
+        scores[i] = 0;
+        is_place_a[i] = 0;
     }
 
-    scores[0] = 0;
-    scores[1] = 0;
     is_timeout = 0;
 }
 
@@ -109,10 +185,16 @@ int main_game() {
         time_t start;
         time(&start);
         do {
+            if (check_skip(player)) {
+                break;
+            }
             draw_table();
+            if (check_skip((player + 1) % 2)) {
+                printf("Player %d has no place and char left to place, will be skipped\n", ((player + 1) % 2) + 1);
+            }
             if (is_timeout != 0) {
                 int pl = (player + 1) % 2;
-                printf(COL_RED "Player %d take more than 30 seconds to place last turn (%ld), got -1\n" COL_RESET, pl + 1, is_timeout);
+                printf(COL_RED "Player %d take more than 30 seconds to place last turn (%lds), got -1\n" COL_RESET, pl + 1, is_timeout);
                 is_timeout = 0;
             }
             if (player == 0) {
@@ -124,6 +206,10 @@ int main_game() {
             scanf(" %d %d", &row, &col);
         } while (place_char(row - 1, col - 1, player, start));
 
+        if (check_end()) {
+            return 1;
+        }
+
         player = (player + 1) % 2;
     }
 
@@ -134,6 +220,16 @@ int main() {
     while (1) {
         initial();
         main_game();
+
+        draw_table();
+
+        if (scores[0] == scores[1]) {
+            printf("Draw...\n");
+        } else if (scores[0] > scores[1]) {
+            printf(COL_CYAN "Player 1 Win...\n" COL_RESET);
+        } else {
+            printf(COL_MAGENTA "Player 2 Win...\n" COL_RESET);
+        }
 
         char restart;
         do {
