@@ -237,9 +237,6 @@ int main()
         printf("Player %d is winner on this round\n enter to play",player[0][3]>player[1][3]?1:2);
         char pg;
         scanf(" %c",&pg);
-        if (pg!='y'&&pg!='Y'){
-          break;
-        }
         init(board,player,scoreBoard,boardAlpha,0);
 
       }
