@@ -188,7 +188,7 @@ void checkScore(char board[4][4],int player[2][4],int scoreBoard[4][4]){
 int checkWin(int player[2][4]){
   int i,j;
   for(i=0;i<2;i++){
-    if(player[i][0]==0){
+    if(player[i][0]<=0&&player[i][1]<=0){
       return 1;
     }
   }

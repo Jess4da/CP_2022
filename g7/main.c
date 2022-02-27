@@ -20,14 +20,14 @@ void drawBoard(char board[4][4]){
   printf("  -----------------\n");
 }
 
-void init(char board[4][4],int bonus[2],int player[2],int alphabet){
+void init(char board[4][4],int bonus[2],int player[2],int alphabet[1]){
   int i,j;
   for (i=0;i<4;i++){
     for (j=0;j<4;j++){
       board[i][j] = ' ';
     }
   }
-  alphabet = 16;
+  alphabet[0] = 16;
   player[0]=0;
   player[1]=0;
   srand(time(0));
@@ -36,11 +36,11 @@ void init(char board[4][4],int bonus[2],int player[2],int alphabet){
 
 }
 
-int insertBoard(char board[4][4],int x,int y,int turn,int alphabet){
+int insertBoard(char board[4][4],int x,int y,int turn,int alphabet[1]){
   if (turn%2==0){
     if(board[x][y]==' '){
       board[x][y]='c';
-      alphabet--;
+      alphabet[0]--;
     }
     else if(board[x][y]=='c'){
       board[x][y]='b';
@@ -56,7 +56,7 @@ int insertBoard(char board[4][4],int x,int y,int turn,int alphabet){
   else{
     if(board[x][y]==' '){
       board[x][y]='C';
-      alphabet--;
+      alphabet[0]--;
     }
     else if(board[x][y]=='C'){
       board[x][y]='B';
@@ -78,6 +78,7 @@ void checkBoard(char board[4][4],int player[2]){
   player[1]=0;
   for (i=0;i<4;i++){
     for (j=0;j<4;j++){
+      //เช็คแนวนอน
       if (board[i][j]==board[i][j+1]&&board[i][j]==board[i][j+2]&&j+2<4){
         if(board[i][j]=='c'){
           player[0]+=3;
@@ -100,6 +101,7 @@ void checkBoard(char board[4][4],int player[2]){
           player[1]+=1;
         }
       }
+      //เช็คแนวตั้ง
       if (board[i][j]==board[i+1][j]&&board[i][j]==board[i+2][j]&&i+2<4){
         if(board[i][j]=='c'){
           player[0]+=3;
@@ -122,7 +124,7 @@ void checkBoard(char board[4][4],int player[2]){
           player[1]+=1;
         }
       }
-
+      //เช็คทะแยงลงขวา
       if (board[i][j]==board[i+1][j+1]&&board[i][j]==board[i+2][j+2]&&i+2<4&&j+2<4){
         if(board[i][j]=='c'){
           player[0]+=3;
@@ -179,14 +181,15 @@ int main(){
   char board[4][4];
   int player[2];
   int x,y;
-  int alphabet;
+  int alphabet[1];
   // init(board,bonus);
   init(board,bonus,player,alphabet);
   drawBoard(board);
 
   while (1)
   {
-    printf("Position bonus %d, %d\n",bonus[0],bonus[1]);
+    // printf("Alphabet: %d\n",alphabet[0]);
+    //printf("Position bonus %d, %d\n",bonus[0]+1,bonus[1]+1);
     printf("Score: P1 %d, P2 %d\n",player[0],player[1]);
     printf("Player %d insert position of x and y (example: 1 2)> ",turn%2+1);
     scanf(" %d %d",&x,&y);
@@ -209,7 +212,7 @@ int main(){
       turn++;
     }
 
-    if(alphabet<=0){
+    if(alphabet[0]<=0){
       if(player[0]>player[1]){
         printf("Player 1 is Winner\nYou want to play again? [y/n]");
       }
@@ -222,6 +225,7 @@ int main(){
         if(pa=='y'){
           init(board,bonus,player,alphabet);
           turn=0;
+          // cls();
         }else{
           break;
         }
