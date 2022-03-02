@@ -241,12 +241,14 @@ int main()
             break;
           }
           init(board,player,scoreBoard,boardAlpha,1);
+          cls();
+        }else{
+          printf("Player %d is winner on this round\nEnter Y to play> ",pwin);
+          char pg;
+          scanf(" %c",&pg);
+          init(board,player,scoreBoard,boardAlpha,0);
+          turn = pwin;
         }
-        printf("Player %d is winner on this round\nEnter Y to play> ",pwin);
-        char pg;
-        scanf(" %c",&pg);
-        init(board,player,scoreBoard,boardAlpha,0);
-        turn = pwin;
 
       }else{
         int pwin = player[0][3]>player[1][3]?1:2;
@@ -261,12 +263,15 @@ int main()
             break;
           }
           init(board,player,scoreBoard,boardAlpha,1);
+          cls();
+
+        }else{
+          printf("Player %d is winner on this round\nEnter Y to play> ",player[0][3]>player[1][3]?1:2);
+          char pg;
+          scanf(" %c",&pg);
+          init(board,player,scoreBoard,boardAlpha,0);
+          turn = pwin;
         }
-        printf("Player %d is winner on this round\nEnter Y to play> ",player[0][3]>player[1][3]?1:2);
-        char pg;
-        scanf(" %c",&pg);
-        init(board,player,scoreBoard,boardAlpha,0);
-        turn = pwin;
       }
       
       drawBoard(board);
