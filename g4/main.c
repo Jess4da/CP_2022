@@ -73,6 +73,7 @@ int updateBoard(char board[4][4],int player[2][6],int x,int y,char alphabet,int 
       board[x][y]=alphabet;
       boardAlpha[x][y]=4;
     }else{
+      printf("Round %d\n",player[0][5]+player[1][5]+1);
       printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
       printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
       drawBoard(board);
@@ -101,6 +102,7 @@ int updateBoard(char board[4][4],int player[2][6],int x,int y,char alphabet,int 
       board[x][y]=alphabet;
       boardAlpha[x][y]=4;
     }else{
+      printf("Round %d\n",player[0][5]+player[1][5]+1);
       printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
       printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
       drawBoard(board);
@@ -108,6 +110,7 @@ int updateBoard(char board[4][4],int player[2][6],int x,int y,char alphabet,int 
       return 1;
     }
   }
+  printf("Round %d\n",player[0][5]+player[1][5]+1);
   drawBoard(board);  
   printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
   printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
@@ -206,6 +209,7 @@ int main()
   int player[2][6];
   init(board,player,scoreBoard,boardAlpha,1);
   drawBoard(board);
+  printf("Round 1\n");
   printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
   printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
   
@@ -224,40 +228,45 @@ int main()
       turn+=1;
     }
 
-    if (checkGame(board)!=1||player[0][4]==1||player[1][4]==1){
-      if(player[0][5]>=2||player[0][5]>=2){
-        int pwin = player[0][3]>player[1][3]?1:2;
-        printf("Player %d is winner \n Play again (Y/N)",player[0][5]>player[1][5]?1:2);
-
-        char pg;
-        scanf(" %c",&pg);
-        if (pg!='y'&&pg!='Y'){
-          break;
-        }
-        init(board,player,scoreBoard,boardAlpha,1);
-      }
+    if (checkGame(board)!=1||player[0][4]==1||player[1][4]==1){      
       if (player[0][4]==1||player[1][4]==1){
         int pwin = player[0][4]==1?1:2;
-        printf("Player %d is winner on this round\n enter Y to play",pwin);
-        // char pg;
-        // scanf(" %c",&pg);
-        // if (pg!='y'&&pg!='Y'){
-        //   break;
-        // }
-        // init(board,player,scoreBoard,boardAlpha,1);
+        player[pwin-1][5]+=1;
+        if(player[0][5]>=2||player[0][5]>=2){
+          int pwin = player[0][3]>player[1][3]?1:2;
+          printf("Player %d is winner of the game\nPlay again (Y/N)> ",player[0][5]>player[1][5]?1:2);
+          char pg;
+          scanf(" %c",&pg);
+          if (pg!='y'&&pg!='Y'){
+            break;
+          }
+          init(board,player,scoreBoard,boardAlpha,1);
+        }
+        printf("Player %d is winner on this round\nEnter Y to play> ",pwin);
         char pg;
         scanf(" %c",&pg);
         init(board,player,scoreBoard,boardAlpha,0);
-        player[pwin-1][5]+=1;
+        turn = pwin;
 
       }else{
         int pwin = player[0][3]>player[1][3]?1:2;
-        printf("Player %d is winner on this round\n enter Y to play",player[0][3]>player[1][3]?1:2);
+        player[pwin-1][5]+=1;
+        if(player[0][5]>=2||player[0][5]>=2){
+          int pwin = player[0][3]>player[1][3]?1:2;
+          printf("Player %d is winner \nPlay again (Y/N)> ",player[0][5]>player[1][5]?1:2);
+
+          char pg;
+          scanf(" %c",&pg);
+          if (pg!='y'&&pg!='Y'){
+            break;
+          }
+          init(board,player,scoreBoard,boardAlpha,1);
+        }
+        printf("Player %d is winner on this round\nEnter Y to play> ",player[0][3]>player[1][3]?1:2);
         char pg;
         scanf(" %c",&pg);
         init(board,player,scoreBoard,boardAlpha,0);
-        player[pwin-1][5]+=1;
-
+        turn = pwin;
       }
       
       drawBoard(board);
