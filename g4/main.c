@@ -24,7 +24,7 @@ void drawBoard(char board[4][4]){
 }
 
 //ฟังก์ชั่นกำหนดค่าเริ่มต้น
-void init(char board[4][4],int player[2][5],int scoreBoard[4][4],int boardAlpha[4][4],int check){
+void init(char board[4][4],int player[2][6],int scoreBoard[4][4],int boardAlpha[4][4],int check){
   int i,j;
   for(i=0;i<4;i++){
     for(j=0;j<4;j++){
@@ -39,15 +39,16 @@ void init(char board[4][4],int player[2][5],int scoreBoard[4][4],int boardAlpha[
     player[i][1]=6; // ให้ผู้เล่นมีจำนวน b,B เท่ากับ 6 ตัว
     player[i][2]=8; // ให้ผู้เล่นมีจำนวน c,C เท่ากับ 8 ตัว
     player[i][3]=0; // ให้ผู้เล่นมีคะแนนเริ่มต้นที่ 0
+    player[i][4]=0; // 
     if(check==1){
-      player[i][4]=0; // 
+      player[i][5]=0;
 
     }
   }
 }
 
 // ฟังก์ชั่นอัปเดตกระดาน
-int updateBoard(char board[4][4],int player[2][5],int x,int y,char alphabet,int scoreBoard[4][4],int turn,int boardAlpha[4][4]){
+int updateBoard(char board[4][4],int player[2][6],int x,int y,char alphabet,int scoreBoard[4][4],int turn,int boardAlpha[4][4]){
   cls();
   
   if (turn%2==0){
@@ -112,7 +113,7 @@ int updateBoard(char board[4][4],int player[2][5],int x,int y,char alphabet,int 
   printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
 }
 
-void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][5]){
+void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][6]){
   int i,j;
   player[0][3]=0;
   player[1][3]=0;
@@ -124,12 +125,12 @@ void checkScore(int boardAlpha[4][4],int scoreBoard[4][4],int player[2][5]){
         if (scoreBoard[i][j]%2==0){
           player[0][3]+=1;
           if(winAlpha==7){
-            player[0][4]+=1;
+            player[0][4]=1;
           }
         }else{
           player[1][3]+=1; 
           if(winAlpha==7){
-            player[1][4]+=1;
+            player[1][4]=1;
           }
         }
       }
@@ -202,8 +203,8 @@ int main()
   char board[4][4];
   int scoreBoard[4][4];
   int boardAlpha[4][4];
-  int player[2][5];
-  init(board,player,scoreBoard,boardAlpha,0);
+  int player[2][6];
+  init(board,player,scoreBoard,boardAlpha,1);
   drawBoard(board);
   printf("a: %d, b: %d, c: %d\n",player[0][0],player[0][1],player[0][2]);
   printf("A: %d, B: %d, C: %d\n",player[1][0],player[1][1],player[1][2]);
@@ -223,21 +224,39 @@ int main()
       turn+=1;
     }
 
-    if (checkGame(board)!=1||player[0][4]>=1||player[1][4]>=1){
-      if (player[0][4]>=2||player[1][4]>=2){
-        printf("Player %d is winer\nPlay again? (Y/N)> ",player[0][4]==1?1:2);
+    if (checkGame(board)!=1||player[0][4]==1||player[1][4]==1){
+      if(player[0][5]>=2||player[0][5]>=2){
+        int pwin = player[0][3]>player[1][3]?1:2;
+        printf("Player %d is winner \n Play again (Y/N)",player[0][5]>player[1][5]?1:2);
+
         char pg;
         scanf(" %c",&pg);
         if (pg!='y'&&pg!='Y'){
           break;
         }
         init(board,player,scoreBoard,boardAlpha,1);
-
-      }else{
-        printf("Player %d is winner on this round\n enter to play",player[0][3]>player[1][3]?1:2);
+      }
+      if (player[0][4]==1||player[1][4]==1){
+        int pwin = player[0][4]==1?1:2;
+        printf("Player %d is winner on this round\n enter Y to play",pwin);
+        // char pg;
+        // scanf(" %c",&pg);
+        // if (pg!='y'&&pg!='Y'){
+        //   break;
+        // }
+        // init(board,player,scoreBoard,boardAlpha,1);
         char pg;
         scanf(" %c",&pg);
         init(board,player,scoreBoard,boardAlpha,0);
+        player[pwin-1][5]+=1;
+
+      }else{
+        int pwin = player[0][3]>player[1][3]?1:2;
+        printf("Player %d is winner on this round\n enter Y to play",player[0][3]>player[1][3]?1:2);
+        char pg;
+        scanf(" %c",&pg);
+        init(board,player,scoreBoard,boardAlpha,0);
+        player[pwin-1][5]+=1;
 
       }
       
