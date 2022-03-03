@@ -81,8 +81,8 @@ int check_score(int p, int row, int col) {
     // Cross topright check
     temp_score += equals(table[row][col], table[row + 1][col - 1], table[row + 2][col - 2]) &&
                   table[row][col] != table[row + 3][col - 3];
-    temp_score += equals(table[row][col], table[row - 1][col + 1], table[row - 2][col - 2]) &&
-                  table[row][col] != table[row - 3][col - 3];
+    temp_score += equals(table[row][col], table[row - 1][col + 1], table[row - 2][col + 2]) &&
+                  table[row][col] != table[row - 3][col + 3];
     temp_score += equals(table[row][col], table[row + 1][col - 1], table[row - 1][col + 1]);
 
     score[p] += temp_score;
