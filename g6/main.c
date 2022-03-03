@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define RED_COLOR "\x1b[31m"
+#define RESET_COLOR "\x1b[0m"
+
 char table[4][4];
 int traps[2][2];
 int score[2];
@@ -31,7 +34,13 @@ void draw() {
     for (i = 0; i < 4; i++) {
         printf(" %d ", i + 1);
         for (j = 0; j < 4; j++) {
-            printf("| %c ", table[i][j]);
+            printf("| ");
+            if ((traps[0][0] == i && traps[0][1] == j) || (traps[1][0] == i && traps[1][1] == j)){
+                printf(RED_COLOR "%c " RESET_COLOR, table[i][j]);
+            }
+            else{
+                printf("%c ", table[i][j]);
+            }
         }
         printf("|\n   -----------------\n");
     }
