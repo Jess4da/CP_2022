@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define RED_COLOR "\x1b[31m"
+#define RESET_COLOR "\x1b[0m"
+
 char table[4][4];
 int traps[2][2];
 int score[2];
@@ -31,7 +34,13 @@ void draw() {
     for (i = 0; i < 4; i++) {
         printf(" %d ", i + 1);
         for (j = 0; j < 4; j++) {
-            printf("| %c ", table[i][j]);
+            printf("| ");
+            if ((traps[0][0] == i && traps[0][1] == j) || (traps[1][0] == i && traps[1][1] == j)){
+                printf(RED_COLOR "%c " RESET_COLOR, table[i][j]);
+            }
+            else{
+                printf("%c ", table[i][j]);
+            }
         }
         printf("|\n   -----------------\n");
     }
@@ -51,7 +60,7 @@ int check_score(int p, int row, int col) {
         for (i = 0; i < 2; i++) {
             if (row == traps[i][0] && col == traps[i][1]) {
                 int pen = (rand() % 1) + 1;
-                temp_score -= pen;
+                score[p] -= pen;
                 is_trap = pen;
             }
         }
@@ -81,13 +90,13 @@ int check_score(int p, int row, int col) {
     // Cross topright check
     temp_score += equals(table[row][col], table[row + 1][col - 1], table[row + 2][col - 2]) &&
                   table[row][col] != table[row + 3][col - 3];
-    temp_score += equals(table[row][col], table[row - 1][col + 1], table[row - 2][col - 2]) &&
-                  table[row][col] != table[row - 3][col - 3];
+    temp_score += equals(table[row][col], table[row - 1][col + 1], table[row - 2][col + 2]) &&
+                  table[row][col] != table[row - 3][col + 3];
     temp_score += equals(table[row][col], table[row + 1][col - 1], table[row - 1][col + 1]);
 
     score[p] += temp_score;
-    if (temp_score > 0)
-        first++;
+    if (temp_score > 0 && first == 0)
+        first = 1;
     return temp_score;
 }
 
@@ -170,7 +179,7 @@ void run() {
             scanf(" %d,%d", &row, &col);
         } while (place_alphabet(p, row - 1, col - 1));
 
-        if (first == 1) {
+        if (first > 0) {
             int temp = (p + 1) % 2;
             do {
                 draw();
@@ -179,6 +188,7 @@ void run() {
                 scanf(" %d,%d", &row, &col);
             } while (place_alphabet(temp, row - 1, col - 1));
             p = temp;
+            first = -1;
         }
 
         p = p + 1;
