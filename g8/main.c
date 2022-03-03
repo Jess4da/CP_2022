@@ -53,32 +53,32 @@ int compare(char a, char b, char c) {
 void cal_score(int row, int col, int player) {
     int score = 0;
 
-    //Row
+    // Row
     score += compare(table[row][col], table[row + 1][col], table[row + 2][col]) &&
              table[row][col] != table[row + 3][col];
     score += compare(table[row][col], table[row - 1][col], table[row - 2][col]) &&
              table[row][col] != table[row - 3][col];
     score += compare(table[row][col], table[row + 1][col], table[row - 1][col]);
 
-    //Column
+    // Column
     score += compare(table[row][col], table[row][col + 1], table[row][col + 2]) &&
              table[row][col] != table[row][col + 3];
     score += compare(table[row][col], table[row][col - 1], table[row][col - 2]) &&
              table[row][col] != table[row][col - 3];
     score += compare(table[row][col], table[row][col + 1], table[row][col - 1]);
 
-    //Topleft cross
+    // Topleft cross
     score += compare(table[row][col], table[row + 1][col + 1], table[row + 2][col + 2]) &&
              table[row][col] != table[row + 3][col + 3];
     score += compare(table[row][col], table[row - 1][col - 1], table[row - 2][col - 2]) &&
              table[row][col] != table[row - 3][col - 3];
     score += compare(table[row][col], table[row + 1][col + 1], table[row - 1][col - 1]);
 
-    //Topright cross
+    // Topright cross
     score += compare(table[row][col], table[row + 1][col - 1], table[row + 2][col - 2]) &&
              table[row][col] != table[row + 3][col - 3];
-    score += compare(table[row][col], table[row - 1][col + 1], table[row - 2][col - 2]) &&
-             table[row][col] != table[row - 3][col - 3];
+    score += compare(table[row][col], table[row - 1][col + 1], table[row - 2][col + 2]) &&
+             table[row][col] != table[row - 3][col + 3];
     score += compare(table[row][col], table[row + 1][col - 1], table[row - 1][col + 1]);
 
     scores[player] += score;
