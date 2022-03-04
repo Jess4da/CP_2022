@@ -6,7 +6,7 @@
 #define RED_COLOR "\x1b[31m"
 #define RESET_COLOR "\x1b[0m"
 
-char table[4][4];
+char table[6][6];
 int traps[2][2];
 int score[2];
 int alphabet[2][2];
@@ -31,14 +31,13 @@ void draw() {
         printf("  %d ", i + 1);
     }
     printf("\n   -----------------\n");
-    for (i = 0; i < 4; i++) {
-        printf(" %d ", i + 1);
-        for (j = 0; j < 4; j++) {
+    for (i = 1; i < 5; i++) {
+        printf(" %d ", i);
+        for (j = 1; j < 5; j++) {
             printf("| ");
-            if ((traps[0][0] == i && traps[0][1] == j) || (traps[1][0] == i && traps[1][1] == j)){
+            if ((traps[0][0] == i && traps[0][1] == j) || (traps[1][0] == i && traps[1][1] == j)) {
                 printf(RED_COLOR "%c " RESET_COLOR, table[i][j]);
-            }
-            else{
+            } else {
                 printf("%c ", table[i][j]);
             }
         }
@@ -101,6 +100,9 @@ int check_score(int p, int row, int col) {
 }
 
 int place_alphabet(int p, int row, int col) {
+    if (!((0 < row && row < 5) || (0 < col && col < 5))) {
+        return 1;
+    }
     int count_place = 0;
     if (table[row][col] == ' ') {
         table[row][col] = p == 0 ? 'c' : 'C';
@@ -127,8 +129,8 @@ int place_alphabet(int p, int row, int col) {
 
 int checkend() {
     int i, j;
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < 4; j++) {
+    for (i = 1; i < 5; i++) {
+        for (j = 1; j < 5; j++) {
             if (table[i][j] == ' ') {
                 return 1;
             }
@@ -142,16 +144,16 @@ void init() {
     int i, j;
     for (i = 0; i < 2; i++) {
         do {
-            traps[i][0] = rand() % 4;
-            traps[i][1] = rand() % 4;
+            traps[i][0] = (rand() % 4) + 1;
+            traps[i][1] = (rand() % 4) + 1;
         } while (traps[i - 1][0] == traps[i][0] && traps[i - 1][1] == traps[i][1]);
 
         alphabet[i][0] = 3;
         alphabet[i][1] = 6;
     }
 
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < 4; j++) {
+    for (i = 0; i < 6; i++) {
+        for (j = 0; j < 6; j++) {
             table[i][j] = ' ';
         }
     }
@@ -171,13 +173,13 @@ void run() {
             draw();
             if (is_trap != -1) {
                 int temp = (p + 1) % 2;
-                printf("Player %d got trapped last turn, -%d\n", temp + 1, is_trap);
+                printf(RED_COLOR "Player %d got trapped last turn, -%d\n" RESET_COLOR, temp + 1, is_trap);
                 is_trap = -1;
             }
             printf("Player %d turn.\n", p + 1);
             printf("Choose row and column to place e.g. 1,2 >> ");
             scanf(" %d,%d", &row, &col);
-        } while (place_alphabet(p, row - 1, col - 1));
+        } while (place_alphabet(p, row, col));
 
         if (first > 0) {
             int temp = (p + 1) % 2;
@@ -186,7 +188,7 @@ void run() {
                 printf("Player %d bonus.\n", p + 1);
                 printf("Choose row and column to place for player %d e.g. 1,2 >> ", temp + 1);
                 scanf(" %d,%d", &row, &col);
-            } while (place_alphabet(temp, row - 1, col - 1));
+            } while (place_alphabet(temp, row, col));
             p = temp;
             first = -1;
         }
